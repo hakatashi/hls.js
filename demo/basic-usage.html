@@ -17,7 +17,7 @@
         if(Hls.isSupported()) {
           var video = document.getElementById('video');
           var hls = new Hls();
-          hls.loadSource('https://hls-dev.pixivsketch.net/2018031217/1520844550428107830198c0fb9fdc071552f9a6fee0e9aadbd/4000000_1920x1080/index.m3u8');
+          hls.loadSource('https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8');
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, async () => {
             const button = document.getElementById('button');
