@@ -17,14 +17,19 @@
         if(Hls.isSupported()) {
           var video = document.getElementById('video');
           var hls = new Hls();
-          hls.loadSource('https://hls-dev.pixivsketch.net/2018030911/15205628354606196387eb8a7e1b18e3d83f931fb3b796d2064/4000000_1920x1080/index.m3u8');
+          hls.loadSource('https://hls-dev.pixivsketch.net/2018031217/1520844550428107830198c0fb9fdc071552f9a6fee0e9aadbd/4000000_1920x1080/index.m3u8');
           hls.attachMedia(video);
-          hls.on(Hls.Events.MANIFEST_PARSED,function() {
+          hls.on(Hls.Events.MANIFEST_PARSED, async () => {
             const button = document.getElementById('button');
-            button.disabled = false;
-            button.onclick = () => {
-              video.play();
-            };
+            try {
+              await video.play();
+            } catch (e) {
+              console.error(e);
+              button.disabled = false;
+              button.onclick = () => {
+                video.play();
+              };
+            }
           });
           hls.on(Hls.Events.LEVEL_SWITCH, (event, data) => {
             console.log('SWITCH', event, data);
