@@ -10,18 +10,38 @@
       <center>
           <h1>Hls.js demo - basic usage</h1>
           <video height="600" id="video" controls></video>
+          <button id="button" type="button" disabled>play</button>
       </center>
 
       <script>
         if(Hls.isSupported()) {
           var video = document.getElementById('video');
           var hls = new Hls();
-          hls.loadSource('https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8');
+          hls.loadSource('https://hls-dev.pixivsketch.net/2018030911/15205628354606196387eb8a7e1b18e3d83f931fb3b796d2064/4000000_1920x1080/index.m3u8');
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED,function() {
-            video.play();
-        });
-       }
+            const button = document.getElementById('button');
+            button.disabled = false;
+            button.onclick = () => {
+              video.play();
+            };
+          });
+          hls.on(Hls.Events.LEVEL_SWITCH, (event, data) => {
+            console.log('SWITCH', event, data);
+          });
+          hls.on(Hls.Events.DESTROYING, () => {
+            console.log('DESTROYING', event, data);
+          });
+          hls.on(Hls.Events.STREAM_STATE_TRANSITION, (event, data) => {
+            console.log('TRANSITION', event, data);
+          });
+          hls.on(Hls.Events.ERROR, (event, data) => {
+            console.log('ERROR', event, data);
+          });
+          hls.on(Hls.Events.MANIFEST_PARSED, (event) => {
+            console.log('PARSED', event);
+          });
+         }
        // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
        // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
        // This is using the built-in support of the plain video element, without using hls.js.
@@ -35,5 +55,3 @@
 
   </body>
 </html>
-
-
